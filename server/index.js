@@ -1,9 +1,15 @@
+if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'development';
+}
+
 const experss = require('express')
+
+const config = require('./configs/config')[process.env.NODE_ENV]
 
 let server;
 
 const startApp = async function() {
-    var port = 3060;
+    var port = process.env.PORT || config.port;
 
     var app = experss();
 
