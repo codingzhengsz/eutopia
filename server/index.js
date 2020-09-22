@@ -1,7 +1,16 @@
 const experss = require('express')
-const app = experss()
-const port = 3060
 
-app.get('/', (req,res) => res.send('Hello World!'))
+let server;
 
-app.listen(port, () => console.log(`Example app listening on port ${port}`))
+const startApp = async function() {
+    var port = 3060;
+
+    var app = experss();
+
+    require('../server/routes')(app);
+
+    server = app.listen(port);
+    console.log(`> Listening at port: ${port}\n`)
+}
+
+startApp();
