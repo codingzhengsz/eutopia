@@ -4,11 +4,16 @@ if (!process.env.NODE_ENV) {
 
 const experss = require('express')
 
+const dbConn = require('./configs/dbConn');
 const config = require('./configs/config')[process.env.NODE_ENV]
 
 let server;
 
+let readyPromise = new Promise(() => {});
+
 const startApp = async function() {
+    await dbConn.init();
+
     var port = process.env.PORT || config.port;
 
     var app = experss();
@@ -20,3 +25,10 @@ const startApp = async function() {
 }
 
 startApp();
+
+module.exports = {
+    ready: readyPromise,
+    close: () => {
+        server.close();
+    }
+}
